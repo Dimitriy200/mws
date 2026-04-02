@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mws"
+version = "0.4.0"
+description = "Anomaly detection with autoencoders"
+dependencies = [
+    "mlflow==3.10.1",
+    "numpy==2.2.6",
+    "pandas==2.3.3",
+    "tensorflow==2.21.0",
+    "dagshub==0.6.9"
+
+]
+requires-python = "==3.10"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mws*"]

@@ -1,0 +1,102 @@
+# ======================================================
+#   Файл конфигурации путей и преременных проекта
+# ======================================================
+
+import os
+import logging
+import pickle
+import json
+import sys
+import pandas as pd
+import dagshub
+import mlflow
+
+from dotenv import load_dotenv
+
+from sklearn.impute import SimpleImputer, KNNImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from numpy import genfromtxt
+from sklearn.model_selection import train_test_split
+from typing import Dict, List, Any
+
+from pathlib import Path
+parent_dir = Path(__file__).parent
+sys.path.append(str(parent_dir))
+
+
+load_dotenv()
+
+# РАСПОЛОЖЕНИЕ ДИРРЕКТОРИЙ ДАННЫХ ДЛЯ ОБУЧЕНИЯ МОДЕЛЕЙ С НУЛЯ
+PATH_TRAIN_RAW = os.getenv('PATH_TRAIN_RAW')
+PATH_TRAIN_FINAL = os.getenv('PATH_TRAIN_RAW')
+PATH_TRAIN_PROCESSED = os.getenv('PATH_TRAIN_PROCESSED')
+PATH_TRAIN_FINAL = os.getenv('PATH_TRAIN_FINAL')
+
+# РАСПОЛОЖЕНИЕ ДИРРЕКТОРИЙ ДЛЯ ДООБУЧЕНИЯ
+PATH_TRAIN_ADD_RAW = os.getenv('PATH_TRAIN_ADD_RAW')
+PATH_TRAIN_ADD_FINAL = os.getenv('PATH_TRAIN_ADD_FINAL')
+PATH_LOG = os.getenv("PATH_LOG")
+PATH_SKALERS = Path("skalers")
+
+# 
+MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI")
+MLFLOW_REPO_OWNER = os.getenv("MLFLOW_REPO_OWNER")
+MLFLOW_REPO_NAME = os.getenv("MLFLOW_REPO_NAME")
+MLFLOW_REPO_PASSWORD = os.getenv("MLFLOW_REPO_PASSWORD")
+MLFLOW_REPO_TOKEN = os.getenv("MLFLOW_REPO_TOKEN")
+MLFLOW_USERNAME = os.getenv("MLFLOW_USERNAME")
+
+paths = [
+    PATH_TRAIN_RAW,
+    PATH_TRAIN_PROCESSED,
+    PATH_TRAIN_FINAL,
+
+    PATH_TRAIN_ADD_RAW,
+    PATH_TRAIN_ADD_FINAL,
+
+    PATH_LOG,
+    PATH_SKALERS
+]
+
+
+def setup_mlflow(
+        repo_owner: str, 
+        repo_name: str, 
+        tracking_uri: str, 
+        username: str,
+        password: str,
+        token: str):
+    
+    os.environ["MLFLOW_TRACKING_USERNAME"] = username
+    os.environ['MLFLOW_TRACKING_PASSWORD'] = password
+    os.environ['MLFLOW_TRACKING_TOKEN'] = token
+
+    dagshub.auth.add_app_token(token = token)
+    dagshub.init(
+        repo_owner = repo_owner, 
+        repo_name = repo_name, 
+        mlflow = True)
+    
+    dagshub.mlflow.set_tracking_uri(tracking_uri)
+    logging.info("--- DUGSHUB-MLFLOW CONFIGURATION COMPLETE ---")
+
+    return 0
+
+
+[os.mkdir(path) for path in paths if not os.path.isdir(path)]
+
+
+logging.basicConfig(
+    level = logging.INFO,
+    filename =  Path(PATH_LOG).joinpath('logs.log'),
+    filemode = "w",
+    format = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+)
+main_logger = logging.getLogger(__name__)
+
+
+if __name__ == '__main__':
+    # Проверка существования дирректорий. Создаем если нет
+    
+    logging.info("=== CONFIG COMPLETE ===")

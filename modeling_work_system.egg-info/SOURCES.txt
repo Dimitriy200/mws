@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+modeling_work_system.egg-info/PKG-INFO
+modeling_work_system.egg-info/SOURCES.txt
+modeling_work_system.egg-info/dependency_links.txt
+modeling_work_system.egg-info/requires.txt
+modeling_work_system.egg-info/top_level.txt
+tests/test_all_metods.py
+tests/test_experiments.py
+tests/test_split_data_by_engine.py
+tests/test_user.py
+tests/test_user_engine.py

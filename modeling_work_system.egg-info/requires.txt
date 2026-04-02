@@ -1,0 +1,5 @@
+mlflow==3.10.1
+numpy==2.2.6
+pandas==2.3.3
+tensorflow==2.21.0
+dagshub==0.6.9

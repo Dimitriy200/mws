@@ -1,0 +1,8 @@
+/data
+.env
+*.db
+/.venv
+/skalers
+/mlruns
+/logs
+/dist
