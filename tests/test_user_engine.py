@@ -27,8 +27,8 @@ from mws.config import (
 )
 
 from pathlib import Path
-# from mws.pipeline.pipeline_spec import Pipeline
-from mws.pipeline.pipeline import Pipeline
+from mws.pipeline.pipeline_spec import Pipeline
+# from mws.pipeline.pipeline import Pipeline
 from mws.preprocessing.scaler import Scaler
 from mws.preprocessing.load_data_first import LoadDataTrain
 from mws.preprocessing.load_data_add import LoadDataTrainAdd

@@ -7,14 +7,15 @@ name = "mws"
 version = "0.4.0"
 description = "Anomaly detection with autoencoders"
 dependencies = [
+    "protobuf>=4.21.0,<7.0.0",
     "mlflow==3.10.1",
-    "numpy==2.2.6",
+    # "numpy==2.2.6",
+    "numpy<2.0",
     "pandas==2.3.3",
     "tensorflow==2.21.0",
     "dagshub==0.6.9"
-
 ]
-requires-python = "==3.10"
+requires-python = ">=3.10"
 
 [tool.setuptools.packages.find]
 where = ["."]
